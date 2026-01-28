@@ -3,6 +3,7 @@
 import * as Headless from '@headlessui/react'
 import { motion } from 'motion/react'
 import React, { useState } from 'react'
+import { Waveform } from '@/components/Waveform'
 import { NavbarItem } from './navbar'
 
 function OpenMenuIcon() {
@@ -76,8 +77,9 @@ export function SidebarLayout({
 
       {/* Content */}
       <main className="flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:pl-64">
-        <div className="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">
-          <div className="mx-auto max-w-6xl">{children}</div>
+        <div className="relative grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-xs lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">
+          <Waveform className="pointer-events-none absolute left-0 top-0 h-20 w-full" />
+          <div className="relative mx-auto max-w-6xl">{children}</div>
         </div>
       </main>
     </div>
