@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/button'
 import { Field, FieldGroup, Fieldset, Label } from '@/components/fieldset'
 import { Input } from '@/components/input'
+import { Select } from '@/components/select'
 import { Textarea } from '@/components/textarea'
 import { Text } from '@/components/text'
 import { useRelayStore } from '@/state/relayStore'
@@ -24,6 +25,7 @@ export function PublishShowForm() {
   let [title, setTitle] = useState('')
   let [description, setDescription] = useState('')
   let [image, setImage] = useState('')
+  let [frequency, setFrequency] = useState('weekly')
   let [showGuid, setShowGuid] = useState('')
   let [tags, setTags] = useState<string[]>([])
   let [tagInput, setTagInput] = useState('')
@@ -73,6 +75,7 @@ export function PublishShowForm() {
     let tagsList: string[][] = [['d', dValue], ['title', title.trim()]]
 
     if (image.trim()) tagsList.push(['image', image.trim()])
+    if (frequency.trim()) tagsList.push(['frequency', frequency.trim()])
     if (showGuid.trim()) tagsList.push(['i', `podcast:guid:${showGuid.trim()}`])
     if (pubkey) tagsList.push(['p', pubkey])
     for (let tag of tags) tagsList.push(['t', tag])
@@ -116,6 +119,15 @@ export function PublishShowForm() {
           <Field>
             <Label>Image URL</Label>
             <Input type="url" value={image} onChange={(event) => setImage(event.target.value)} />
+          </Field>
+          <Field>
+            <Label>Frequency</Label>
+            <Select value={frequency} onChange={(event) => setFrequency(event.target.value)}>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="bi-weekly">Bi-weekly</option>
+              <option value="monthly">Monthly</option>
+            </Select>
           </Field>
           <Field>
             <Label>Tags</Label>

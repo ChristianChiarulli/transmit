@@ -110,6 +110,23 @@ export function PublishEpisodeForm() {
     setAudioType(inferAudioType(audioUrl.trim()))
   }, [audioUrl])
 
+  function addTag(value: string) {
+    let next = value.trim().replace(/^#/, '')
+    if (!next || tags.includes(next)) return
+    setTags((prev) => [...prev, next])
+  }
+
+  function handleTagKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== 'Enter') return
+    event.preventDefault()
+    addTag(tagInput)
+    setTagInput('')
+  }
+
+  function removeTag(tag: string) {
+    setTags((prev) => prev.filter((item) => item !== tag))
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!title.trim() || !showAddressTag || !audioUrl.trim()) {
@@ -248,19 +265,3 @@ export function PublishEpisodeForm() {
     </form>
   )
 }
-  function addTag(value: string) {
-    let next = value.trim().replace(/^#/, '')
-    if (!next || tags.includes(next)) return
-    setTags((prev) => [...prev, next])
-  }
-
-  function handleTagKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key !== 'Enter') return
-    event.preventDefault()
-    addTag(tagInput)
-    setTagInput('')
-  }
-
-  function removeTag(tag: string) {
-    setTags((prev) => prev.filter((item) => item !== tag))
-  }
