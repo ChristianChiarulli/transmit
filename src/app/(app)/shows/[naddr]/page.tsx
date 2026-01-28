@@ -44,6 +44,9 @@ export default function ShowPage() {
           <div>
             <Heading>{show.title}</Heading>
             <Text className="mt-2">{show.content ?? 'No show description yet.'}</Text>
+            {show.frequency && (
+              <Text className="mt-2 text-sm text-zinc-500">Frequency: {show.frequency}</Text>
+            )}
           </div>
         </div>
         <Button
