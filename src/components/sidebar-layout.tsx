@@ -1,9 +1,9 @@
 'use client'
 
+import { AudioPlayer } from '@/components/player/AudioPlayer'
 import * as Headless from '@headlessui/react'
 import { motion } from 'motion/react'
 import React, { useState } from 'react'
-import { AudioPlayer } from '@/components/player/AudioPlayer'
 import { NavbarItem } from './navbar'
 
 function OpenMenuIcon() {
@@ -77,8 +77,11 @@ export function SidebarLayout({
 
       {/* Content */}
       <main className="flex flex-1 flex-col lg:min-w-0 lg:pl-64">
-        <div className="relative grow p-6 lg:bg-white dark:lg:bg-zinc-900">
-          <div className="mx-auto max-w-6xl">{children}</div>
+        <div className="flex h-svh flex-col lg:bg-white dark:lg:bg-zinc-900">
+          <div className="hidden border-b border-zinc-200 lg:block lg:bg-white dark:border-zinc-800 dark:lg:bg-zinc-900">{navbar}</div>
+          <div className="flex-1 overflow-y-auto overscroll-none">
+            <div className="mx-auto max-w-6xl p-6">{children}</div>
+          </div>
         </div>
       </main>
       <AudioPlayer className="lg:left-64" />

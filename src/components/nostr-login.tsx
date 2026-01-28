@@ -1,5 +1,6 @@
 'use client'
 
+import { NavbarItem, NavbarLabel } from '@/components/navbar'
 import { SidebarItem, SidebarLabel } from '@/components/sidebar'
 import { KeyIcon, UserIcon } from '@heroicons/react/20/solid'
 import { useEffect, useState } from 'react'
@@ -11,7 +12,7 @@ function formatPubkey(pubkey: string) {
   return `${pubkey.slice(0, 10)}…${pubkey.slice(-6)}`
 }
 
-export function NostrLogin() {
+export function NostrLogin({ variant = 'sidebar' }: { variant?: 'sidebar' | 'navbar' }) {
   let [pubkey, setPubkey] = useState<string | null>(null)
   let [isLoading, setIsLoading] = useState(false)
 
@@ -39,6 +40,15 @@ export function NostrLogin() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (variant === 'navbar') {
+    return (
+      <NavbarItem onClick={handleLogin} disabled={isLoading}>
+        {pubkey ? <UserIcon /> : <KeyIcon />}
+        <NavbarLabel>{pubkey ? formatPubkey(pubkey) : 'Connect Nostr'}</NavbarLabel>
+      </NavbarItem>
+    )
   }
 
   return (

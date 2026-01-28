@@ -1,15 +1,30 @@
 'use client'
 
-import { Dropdown, DropdownButton, DropdownDivider, DropdownItem, DropdownLabel, DropdownMenu } from '@/components/dropdown'
-import { Navbar, NavbarLabel, NavbarSection, NavbarSpacer } from '@/components/navbar'
 import { Button } from '@/components/button'
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from '@/components/dialog'
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownDivider,
+  DropdownItem,
+  DropdownLabel,
+  DropdownMenu,
+} from '@/components/dropdown'
 import { Input } from '@/components/input'
+import { Navbar, NavbarLabel, NavbarSection, NavbarSpacer } from '@/components/navbar'
 import { NostrLogin } from '@/components/nostr-login'
 import { SidebarShowList } from '@/components/podcasts/SidebarShowList'
-import { ThemeSwitcher } from '@/components/theme-switcher'
-import { Sidebar, SidebarBody, SidebarFooter, SidebarHeader, SidebarItem, SidebarLabel, SidebarSection } from '@/components/sidebar'
+import {
+  Sidebar,
+  SidebarBody,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarItem,
+  SidebarLabel,
+  SidebarSection,
+} from '@/components/sidebar'
 import { SidebarLayout } from '@/components/sidebar-layout'
+import { ThemeSwitcher } from '@/components/theme-switcher'
 import { useRelayStore } from '@/state/relayStore'
 import { ChevronDownIcon, HomeIcon, PencilSquareIcon, ServerStackIcon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
@@ -64,7 +79,9 @@ function RelayDropdown() {
 
       <Dialog open={isOpen} onClose={setIsOpen}>
         <DialogTitle>Add relay</DialogTitle>
-        <DialogDescription>Relays are added as publish targets. You can switch the active read relay above.</DialogDescription>
+        <DialogDescription>
+          Relays are added as publish targets. You can switch the active read relay above.
+        </DialogDescription>
         <DialogBody>
           <Input
             autoFocus
@@ -94,9 +111,14 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
       navbar={
         <Navbar>
           <NavbarSection>
-            <NavbarLabel>Podcast NIP Demo</NavbarLabel>
+            <div className="lg:pl-4">
+              <NavbarLabel>Transmit</NavbarLabel>
+            </div>
           </NavbarSection>
           <NavbarSpacer />
+          <NavbarSection>
+            <NostrLogin variant="navbar" />
+          </NavbarSection>
         </Navbar>
       }
       sidebar={
@@ -123,7 +145,6 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
           <SidebarFooter>
             <SidebarSection>
               <ThemeSwitcher />
-              <NostrLogin />
             </SidebarSection>
           </SidebarFooter>
         </Sidebar>
