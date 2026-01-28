@@ -20,6 +20,7 @@ export interface PodcastShow {
   pubkey: string
   d: string
   title: string
+  frequency?: string
   image?: string
   links: string[]
   tags: string[]
@@ -113,6 +114,7 @@ export function parseShow(event: Event): PodcastShow | null {
     pubkey: event.pubkey,
     d,
     title,
+    frequency: getTagValue(event.tags, 'frequency') ?? undefined,
     image: getTagValue(event.tags, 'image') ?? undefined,
     links: getTagValues(event.tags, 'r'),
     tags: getTagValues(event.tags, 't'),

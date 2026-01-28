@@ -99,6 +99,28 @@ export function useEpisode(naddr: string | null) {
   })
 }
 
+export function useEpisodeEvent(naddr: string | null) {
+  let relay = useReadRelay()
+
+  return useQuery({
+    queryKey: ['episode-event', relay, naddr],
+    queryFn: async () => {
+      if (!relay || !naddr) return null
+      let decoded = decodeNaddr(naddr)
+      if (!decoded) return null
+      let events = await fetchEvents(relay, {
+        kinds: [decoded.kind],
+        authors: [decoded.pubkey],
+        '#d': [decoded.identifier],
+        limit: 10,
+      })
+      return events[0] ?? null
+    },
+    enabled: Boolean(relay && naddr),
+    staleTime: 30_000,
+  })
+}
+
 export function useShowsByAddresses(addresses: string[]) {
   let relay = useReadRelay()
 
