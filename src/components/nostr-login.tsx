@@ -1,69 +1,85 @@
 'use client'
 
+import { useRouter, usePathname } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
+import { Avatar } from '@/components/avatar'
+import { useProfile } from '@/hooks/useProfile'
 import { NavbarItem, NavbarLabel } from '@/components/navbar'
 import { SidebarItem, SidebarLabel } from '@/components/sidebar'
-import { Avatar } from '@/components/avatar'
-import { KeyIcon, UserIcon } from '@heroicons/react/20/solid'
-import { useEffect, useState } from 'react'
-import { useProfile } from '@/hooks/useProfile'
-
-const STORAGE_KEY = 'nostr-pubkey'
-const EVENT_NAME = 'nostr-pubkey-changed'
+import { Button } from '@/components/button'
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItem,
+  DropdownLabel,
+  DropdownMenu,
+} from '@/components/dropdown'
+import { ArrowRightOnRectangleIcon, UserIcon } from '@heroicons/react/20/solid'
+import type { UserWithKeys } from '@/types/auth'
 
 function formatPubkey(pubkey: string) {
   return `${pubkey.slice(0, 10)}…${pubkey.slice(-6)}`
 }
 
 export function NostrLogin({ variant = 'sidebar' }: { variant?: 'sidebar' | 'navbar' }) {
-  let [pubkey, setPubkey] = useState<string | null>(null)
-  let [isLoading, setIsLoading] = useState(false)
+  let router = useRouter()
+  let pathname = usePathname()
+  let { data: session, status } = useSession()
+  let user = session?.user as UserWithKeys | undefined
+  let pubkey = user?.publicKey ?? null
   let { data: profile } = useProfile(pubkey)
 
-  useEffect(() => {
-    let stored = window.localStorage.getItem(STORAGE_KEY)
-    if (stored) setPubkey(stored)
-  }, [])
-
-  async function handleLogin() {
-    if (typeof window === 'undefined') return
-    if (!window.nostr || typeof window.nostr.getPublicKey !== 'function') {
-      alert('NIP-07 extension not found. Please install a Nostr signer.')
-      return
-    }
-
-    try {
-      setIsLoading(true)
-      let nextPubkey = await window.nostr.getPublicKey()
-      setPubkey(nextPubkey)
-      window.localStorage.setItem(STORAGE_KEY, nextPubkey)
-      window.dispatchEvent(new Event(EVENT_NAME))
-    } catch (error) {
-      console.error('NIP-07 login failed', error)
-      alert('NIP-07 login failed. Check your signer permissions.')
-    } finally {
-      setIsLoading(false)
-    }
+  function handleLogin() {
+    let callbackUrl = encodeURIComponent(pathname || '/')
+    router.push(`/login?callbackUrl=${callbackUrl}`)
   }
 
-  if (variant === 'navbar') {
-    return (
-      <NavbarItem onClick={handleLogin} disabled={isLoading}>
-        {pubkey && profile?.picture ? (
-          <Avatar src={profile.picture} alt={profile.displayName ?? profile.name ?? 'Profile'} />
-        ) : pubkey ? (
-          <UserIcon />
-        ) : (
-          <KeyIcon />
-        )}
-        {!pubkey && <NavbarLabel>Connect Nostr</NavbarLabel>}
+  async function handleLogout() {
+    await signOut({ redirect: false })
+  }
+
+  if (status === 'loading') {
+    return variant === 'navbar' ? (
+      <NavbarItem disabled>
+        <UserIcon />
       </NavbarItem>
+    ) : (
+      <SidebarItem disabled>
+        <UserIcon />
+        <SidebarLabel>Loading…</SidebarLabel>
+      </SidebarItem>
     )
   }
 
+  if (!pubkey) {
+    return variant === 'navbar' ? (
+      <Button onClick={handleLogin} color="dark/zinc" className="px-3 py-1.5 text-sm">
+        Login
+      </Button>
+    ) : (
+      <Button onClick={handleLogin} color="dark/zinc" className="w-full justify-center">
+        Login
+      </Button>
+    )
+  }
+
+  let avatar = profile?.picture ? (
+    <Avatar src={profile.picture} alt={profile.displayName ?? profile.name ?? 'Profile'} />
+  ) : (
+    <UserIcon />
+  )
+
   return (
-    <SidebarItem onClick={handleLogin} disabled={isLoading}>
-      {pubkey ? <UserIcon /> : <KeyIcon />}
-      <SidebarLabel>{pubkey ? formatPubkey(pubkey) : 'Connect Nostr'}</SidebarLabel>
-    </SidebarItem>
+    <Dropdown>
+      <DropdownButton as={variant === 'navbar' ? NavbarItem : SidebarItem}>
+        {avatar}
+      </DropdownButton>
+      <DropdownMenu anchor="bottom end">
+        <DropdownItem onClick={handleLogout}>
+          <ArrowRightOnRectangleIcon />
+          <DropdownLabel>Logout</DropdownLabel>
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
   )
 }

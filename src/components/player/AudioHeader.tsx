@@ -40,7 +40,7 @@ export function AudioHeader({ className }: { className?: string }) {
   return (
     <div className="flex w-full flex-1 justify-between gap-6 py-1">
       <div className="hidden flex-1 justify-center sm:flex">
-        <div className="flex flex-none items-center gap-4">
+        <div className="flex flex-none items-center gap-4 pl-2 md:pl-6">
           <RewindButton player={player} />
           <div>
             <PlayButton player={player} />
@@ -48,7 +48,7 @@ export function AudioHeader({ className }: { className?: string }) {
           <ForwardButton player={player} />
         </div>
       </div>
-      <div className="hidden max-w-lg flex-1 flex-col rounded bg-zinc-100 sm:flex md:min-w-sm lg:min-w-md xl:min-w-lg dark:bg-zinc-800">
+      <div className="hidden max-w-lg flex-1 flex-col rounded bg-zinc-100 sm:flex sm:min-w-xs md:min-w-sm lg:min-w-sm xl:min-w-lg dark:bg-zinc-800">
         <div className="flex flex-1 flex-col items-center justify-center px-2 text-center">
           <p className="truncate text-xs/5 font-bold text-zinc-900 dark:text-white select-none">{player.episode.title}</p>
           {player.episode.showTitle ? (
@@ -84,13 +84,13 @@ export function AudioHeader({ className }: { className?: string }) {
           }}
         />
       </div>
-      <div className="hidden flex-1 items-center justify-start gap-4 sm:flex">
+      <div className="hidden flex-1 items-center justify-start gap-4 lg:flex">
         <div className="flex items-center">
           <MuteButton player={player} />
         </div>
       </div>
 
-      <div className="flex items-center gap-4 sm:pr-6">
+      <div className="flex items-center gap-4 pr-2 md:pr-6">
         <ThemeSwitcher compact />
         <NostrLogin variant="navbar" />
       </div>

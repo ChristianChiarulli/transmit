@@ -9,8 +9,10 @@ import { Select } from '@/components/select'
 import { Textarea } from '@/components/textarea'
 import { Text } from '@/components/text'
 import { useRelayStore } from '@/state/relayStore'
-import { publishEvent, signEvent } from '@/lib/nostr/publish'
+import { publishEvent, signEventWithKey } from '@/lib/nostr/publish'
 import { PODCAST_SHOW_KIND } from '@/lib/nostr/podcasts'
+import { useSession } from 'next-auth/react'
+import type { UserWithKeys } from '@/types/auth'
 
 function slugify(value: string) {
   return value
@@ -29,9 +31,12 @@ export function PublishShowForm() {
   let [showGuid, setShowGuid] = useState('')
   let [tags, setTags] = useState<string[]>([])
   let [tagInput, setTagInput] = useState('')
-  let [pubkey, setPubkey] = useState<string | null>(null)
   let [status, setStatus] = useState<string | null>(null)
   let [isSubmitting, setIsSubmitting] = useState(false)
+  let { data: session } = useSession()
+  let user = session?.user as UserWithKeys | undefined
+  let pubkey = user?.publicKey ?? null
+  let secretKey = user?.secretKey ?? undefined
 
   useEffect(() => {
     if (!showGuid) {
@@ -41,9 +46,6 @@ export function PublishShowForm() {
           : `show-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
       setShowGuid(guid)
     }
-
-    let storedPubkey = window.localStorage.getItem('nostr-pubkey')
-    if (storedPubkey) setPubkey(storedPubkey)
   }, [showGuid])
 
   function addTag(value: string) {
@@ -91,7 +93,7 @@ export function PublishShowForm() {
         content: description.trim(),
       }
 
-      let signedEvent = await signEvent(eventTemplate)
+      let signedEvent = await signEventWithKey(eventTemplate, secretKey)
       let results = await publishEvent(signedEvent, writeRelays)
 
       let successCount = results.filter((r) => r.status === 'fulfilled').length

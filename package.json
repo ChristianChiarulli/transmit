@@ -20,6 +20,7 @@
     "howler": "^2.2.4",
     "motion": "^12.23.11",
     "next": "^15",
+    "next-auth": "^4.24.13",
     "nostr-tools": "^2.20.0",
     "react": "^19",
     "react-aria": "^3.45.0",

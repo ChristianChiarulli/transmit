@@ -10,8 +10,10 @@ import { Textarea } from '@/components/textarea'
 import { Text } from '@/components/text'
 import { useShows } from '@/hooks/usePodcasts'
 import { useRelayStore } from '@/state/relayStore'
-import { publishEvent, signEvent } from '@/lib/nostr/publish'
+import { publishEvent, signEventWithKey } from '@/lib/nostr/publish'
 import { PODCAST_EPISODE_KIND } from '@/lib/nostr/podcasts'
+import { useSession } from 'next-auth/react'
+import type { UserWithKeys } from '@/types/auth'
 
 function buildImetaTag({
   url,
@@ -83,6 +85,9 @@ export function PublishEpisodeForm() {
   let [tagInput, setTagInput] = useState('')
   let [status, setStatus] = useState<string | null>(null)
   let [isSubmitting, setIsSubmitting] = useState(false)
+  let { data: session } = useSession()
+  let user = session?.user as UserWithKeys | undefined
+  let secretKey = user?.secretKey ?? undefined
 
   let selectedShow = useMemo(
     () => shows?.find((show) => show.addressTag === showAddressTag) ?? null,
@@ -178,7 +183,7 @@ export function PublishEpisodeForm() {
         content: content.trim(),
       }
 
-      let signedEvent = await signEvent(eventTemplate)
+      let signedEvent = await signEventWithKey(eventTemplate, secretKey)
       let results = await publishEvent(signedEvent, writeRelays)
 
       let successCount = results.filter((r) => r.status === 'fulfilled').length

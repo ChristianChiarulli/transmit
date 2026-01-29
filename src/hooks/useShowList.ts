@@ -4,9 +4,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNostrPubkey } from '@/hooks/useNostrPubkey'
 import { useReadRelay } from '@/hooks/useReadRelay'
 import { pool } from '@/lib/nostr/pool'
-import { publishEvent, signEvent } from '@/lib/nostr/publish'
+import { publishEvent, signEventWithKey } from '@/lib/nostr/publish'
 import { buildShowListTags, parseShowList, SHOW_LIST_D, SHOW_LIST_KIND } from '@/lib/nostr/show-lists'
 import { useRelayStore } from '@/state/relayStore'
+import { useSession } from 'next-auth/react'
+import type { UserWithKeys } from '@/types/auth'
 
 async function fetchListEvent(relay: string, pubkey: string) {
   let events = await pool.querySync(
@@ -37,6 +39,9 @@ export function useShowList() {
   let pubkey = useNostrPubkey()
   let writeRelays = useRelayStore((state) => state.writeRelays)
   let queryClient = useQueryClient()
+  let { data: session } = useSession()
+  let user = session?.user as UserWithKeys | undefined
+  let secretKey = user?.secretKey ?? undefined
 
   let queryKey = ['show-list', relay, pubkey]
 
@@ -55,7 +60,7 @@ export function useShowList() {
     mutationFn: async (nextAddresses: string[]) => {
       if (!pubkey) throw new Error('Connect your Nostr signer first.')
       let eventTemplate = buildListEvent(nextAddresses)
-      let signed = await signEvent(eventTemplate)
+      let signed = await signEventWithKey(eventTemplate, secretKey)
       return publishEvent(signed, writeRelays)
     },
     onMutate: async (nextAddresses) => {
