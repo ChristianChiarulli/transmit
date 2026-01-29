@@ -2,8 +2,10 @@
 
 import { NavbarItem, NavbarLabel } from '@/components/navbar'
 import { SidebarItem, SidebarLabel } from '@/components/sidebar'
+import { Avatar } from '@/components/avatar'
 import { KeyIcon, UserIcon } from '@heroicons/react/20/solid'
 import { useEffect, useState } from 'react'
+import { useProfile } from '@/hooks/useProfile'
 
 const STORAGE_KEY = 'nostr-pubkey'
 const EVENT_NAME = 'nostr-pubkey-changed'
@@ -15,6 +17,7 @@ function formatPubkey(pubkey: string) {
 export function NostrLogin({ variant = 'sidebar' }: { variant?: 'sidebar' | 'navbar' }) {
   let [pubkey, setPubkey] = useState<string | null>(null)
   let [isLoading, setIsLoading] = useState(false)
+  let { data: profile } = useProfile(pubkey)
 
   useEffect(() => {
     let stored = window.localStorage.getItem(STORAGE_KEY)
@@ -45,8 +48,14 @@ export function NostrLogin({ variant = 'sidebar' }: { variant?: 'sidebar' | 'nav
   if (variant === 'navbar') {
     return (
       <NavbarItem onClick={handleLogin} disabled={isLoading}>
-        {pubkey ? <UserIcon /> : <KeyIcon />}
-        <NavbarLabel>{pubkey ? formatPubkey(pubkey) : 'Connect Nostr'}</NavbarLabel>
+        {pubkey && profile?.picture ? (
+          <Avatar src={profile.picture} alt={profile.displayName ?? profile.name ?? 'Profile'} />
+        ) : pubkey ? (
+          <UserIcon />
+        ) : (
+          <KeyIcon />
+        )}
+        {!pubkey && <NavbarLabel>Connect Nostr</NavbarLabel>}
       </NavbarItem>
     )
   }
