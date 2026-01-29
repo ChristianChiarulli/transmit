@@ -48,7 +48,7 @@ function Thumb(props: {
           props.onChangeStart?.()
         }}
         className={clsx(
-          'h-4 rounded-full',
+          'h-2.5 rounded-full hover:cursor-pointer',
           isFocusVisible || state.isThumbDragging(index)
             ? 'w-1.5 bg-zinc-900 dark:bg-white'
             : 'w-1 bg-zinc-700 dark:bg-zinc-200',
@@ -75,7 +75,7 @@ export function Slider(
   let totalTime = parseTime(state.getThumbMaxValue(0))
 
   return (
-    <div {...groupProps} className="relative flex w-full min-w-0 touch-none items-center gap-6">
+    <div {...groupProps} className="relative flex w-full min-w-0 touch-none items-center gap-6 hover:cursor-pointer">
       {props.label && (
         <label className="sr-only" {...labelProps}>
           {props.label}
@@ -92,12 +92,12 @@ export function Slider(
           props.onChangeStart?.()
         }}
         ref={trackRef}
-        className="w-full flex-1 bg-zinc-100 sm:rounded-full dark:bg-zinc-800"
+        className="w-full flex-1 bg-zinc-200 dark:bg-zinc-700"
       >
         <div
           className={clsx(
             'h-1 sm:rounded-l-xl sm:rounded-r-md',
-            isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-white' : 'bg-zinc-700 dark:bg-zinc-200',
+            isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-zinc-400' : 'bg-zinc-400 dark:bg-zinc-400',
           )}
           style={{
             width:

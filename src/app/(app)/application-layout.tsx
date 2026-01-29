@@ -11,9 +11,8 @@ import {
   DropdownMenu,
 } from '@/components/dropdown'
 import { Input } from '@/components/input'
-import { Navbar, NavbarDivider, NavbarSection, NavbarSpacer } from '@/components/navbar'
-import { NostrLogin } from '@/components/nostr-login'
-import { AudioPlayer } from '@/components/player/AudioPlayer'
+import { Navbar } from '@/components/navbar'
+import { AudioHeader } from '@/components/player/AudioHeader'
 import {
   Sidebar,
   SidebarBody,
@@ -24,7 +23,6 @@ import {
   SidebarSection,
 } from '@/components/sidebar'
 import { SidebarLayout } from '@/components/sidebar-layout'
-import { ThemeSwitcher } from '@/components/theme-switcher'
 import { useRelayStore } from '@/state/relayStore'
 import { ChevronDownIcon, HomeIcon, PencilSquareIcon, ServerStackIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
@@ -110,15 +108,7 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
     <SidebarLayout
       navbar={
         <Navbar>
-          <AudioPlayer className="hidden w-full lg:block" />
-          <NavbarSpacer />
-          <NavbarSection>
-            <ThemeSwitcher compact />
-          </NavbarSection>
-          <NavbarDivider />
-          <NavbarSection>
-            <NostrLogin variant="navbar" />
-          </NavbarSection>
+          <AudioHeader />
         </Navbar>
       }
       sidebar={
