@@ -49,7 +49,9 @@ function Thumb(props: {
         }}
         className={clsx(
           'h-4 rounded-full',
-          isFocusVisible || state.isThumbDragging(index) ? 'w-1.5 bg-slate-900' : 'w-1 bg-slate-700',
+          isFocusVisible || state.isThumbDragging(index)
+            ? 'w-1.5 bg-zinc-900 dark:bg-white'
+            : 'w-1 bg-zinc-700 dark:bg-zinc-200',
         )}
       >
         <VisuallyHidden>
@@ -87,12 +89,12 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           props.onChangeStart?.()
         }}
         ref={trackRef}
-        className="relative w-full bg-slate-100 md:rounded-full"
+        className="relative w-full bg-zinc-100 md:rounded-full dark:bg-zinc-800"
       >
         <div
           className={clsx(
             'h-2 md:rounded-l-xl md:rounded-r-md',
-            isFocusVisible || state.isThumbDragging(0) ? 'bg-slate-900' : 'bg-slate-700',
+            isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-white' : 'bg-zinc-700 dark:bg-zinc-200',
           )}
           style={{
             width:
@@ -119,17 +121,19 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           className={clsx(
             'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 md:block',
             state.getThumbMaxValue(0) === 0 && 'opacity-0',
-            isFocusVisible || state.isThumbDragging(0) ? 'bg-slate-100 text-slate-900' : 'text-slate-500',
+            isFocusVisible || state.isThumbDragging(0)
+              ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
+              : 'text-zinc-500 dark:text-zinc-400',
           )}
         >
           {formatTime(currentTime, totalTime)}
         </output>
-        <span className="text-sm/6 text-slate-300" aria-hidden="true">
+        <span className="text-sm/6 text-zinc-300 dark:text-zinc-600" aria-hidden="true">
           /
         </span>
         <span
           className={clsx(
-            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 text-slate-500 md:block',
+            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 text-zinc-500 dark:text-zinc-400 md:block',
             state.getThumbMaxValue(0) === 0 && 'opacity-0',
           )}
         >

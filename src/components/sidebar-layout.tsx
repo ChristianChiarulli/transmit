@@ -72,13 +72,25 @@ export function SidebarLayout({
             <OpenMenuIcon />
           </NavbarItem>
         </div>
+        <div className="items-center gap-6 px-6 hidden sm:flex">
+          <div className="flex-1 min-w-0">
+            <AudioPlayer className="block" />
+          </div>
+        </div>
         <div className="min-w-0 flex-1">{navbar}</div>
       </header>
 
       {/* Content */}
       <main className="flex flex-1 flex-col lg:min-w-0 lg:pl-64">
         <div className="flex h-svh flex-col lg:bg-white dark:lg:bg-zinc-900">
-          <div className="hidden border-b border-zinc-200 lg:block lg:bg-white dark:border-zinc-800 dark:lg:bg-zinc-900">{navbar}</div>
+          <div className="hidden border-b border-zinc-200 lg:block lg:bg-white dark:border-zinc-800 dark:lg:bg-zinc-900">
+            <div className="flex items-center gap-6 px-6">
+              <div className="flex-1 min-w-0">
+                <AudioPlayer className="block" />
+              </div>
+              <div className="shrink-0">{navbar}</div>
+            </div>
+          </div>
           <div className="flex-1 overflow-y-auto overscroll-none">
             <div className="mx-auto flex min-h-full max-w-6xl flex-col p-6">
               <div className="flex-1">{children}</div>
@@ -89,7 +101,7 @@ export function SidebarLayout({
           </div>
         </div>
       </main>
-      <AudioPlayer className="lg:left-64" />
+      <AudioPlayer className="fixed inset-x-0 bottom-0 z-10 sm:hidden" />
     </div>
   )
 }

@@ -29,7 +29,7 @@ export function ForwardButton({ player, amount = 10 }: { player: PlayerAPI; amou
       aria-label={`Fast-forward ${amount} seconds`}
     >
       <div className="absolute -inset-4 -left-2 md:hidden" />
-      <ForwardIcon className="h-6 w-6 stroke-slate-500 group-hover:stroke-slate-700" />
+      <ForwardIcon className="h-6 w-6 stroke-zinc-500 group-hover:stroke-zinc-800 dark:stroke-zinc-400 dark:group-hover:stroke-zinc-200" />
     </button>
   )
 }

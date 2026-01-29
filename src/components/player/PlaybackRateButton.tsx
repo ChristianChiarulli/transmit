@@ -96,7 +96,7 @@ export function PlaybackRateButton({ player }: { player: PlayerAPI }) {
   return (
     <button
       type="button"
-      className="relative flex h-6 w-6 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:outline-hidden"
+      className="relative flex h-6 w-6 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2 focus:outline-hidden dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-zinc-200"
       onClick={() => {
         setPlaybackRate((rate) => {
           let existingIdx = playbackRates.indexOf(rate)
@@ -111,7 +111,7 @@ export function PlaybackRateButton({ player }: { player: PlayerAPI }) {
       aria-label="Playback rate"
     >
       <div className="absolute -inset-4 md:hidden" />
-      <PlaybackIcon className="h-4 w-4" />
+      <PlaybackIcon className="h-5 w-5" />
     </button>
   )
 }
