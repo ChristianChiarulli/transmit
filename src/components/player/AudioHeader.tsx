@@ -48,17 +48,20 @@ export function AudioHeader({ className }: { className?: string }) {
           <ForwardButton player={player} />
         </div>
       </div>
-      <div className="hidden max-w-lg flex-1 flex-col rounded bg-zinc-800 sm:flex xl:min-w-lg lg:min-w-md md:min-w-sm">
+      <div className="hidden max-w-lg flex-1 flex-col rounded bg-zinc-800 sm:flex md:min-w-sm lg:min-w-md xl:min-w-lg">
         <div className="flex flex-1 flex-col items-center justify-center px-2 text-center">
-          <Link
-            href={`/episodes/${player.episode.id}`}
-            className="truncate text-xs/5 font-bold text-slate-900 dark:text-white"
-            title={player.episode.title}
-          >
-            {player.episode.title}
-          </Link>
+          <p className="truncate text-xs/5 font-bold text-slate-900 dark:text-white select-none">{player.episode.title}</p>
           {player.episode.showTitle ? (
-            <p className="truncate flex items-end justify-end text-[11px]/5 text-zinc-500 dark:text-zinc-400">{player.episode.showTitle}</p>
+            player.episode.showAddress ? (
+              <Link
+                href={`/shows/${player.episode.showAddress}`}
+                className="truncate text-[11px]/5 text-zinc-500 hover:underline dark:text-zinc-400"
+              >
+                {player.episode.showTitle}
+              </Link>
+            ) : (
+              <p className="truncate text-[11px]/5 text-zinc-500 dark:text-zinc-400">{player.episode.showTitle}</p>
+            )
           ) : null}
         </div>
         <Slider
