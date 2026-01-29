@@ -6,3 +6,12 @@
   --font-sans: Inter, sans-serif;
   --font-sans--font-feature-settings: 'cv11';
 }
+
+@utility scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

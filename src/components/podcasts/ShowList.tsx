@@ -18,16 +18,18 @@ export function ShowList() {
       {!isLoading && !error && data?.length === 0 && (
         <Text className="mt-4">No shows found yet. Publish one to get started.</Text>
       )}
-      <div className="mt-6 flex flex-wrap gap-6">
-        {data?.map((show) => (
-          <ShowCard
-            key={show.address}
-            title={show.title}
-            image={show.image}
-            href={`/shows/${show.address}`}
-            tags={show.tags}
-          />
-        ))}
+      <div className="mt-6 -mx-4 overflow-x-auto scrollbar-hidden">
+        <div className="flex min-w-max gap-6 px-4 pb-4">
+          {data?.map((show) => (
+            <ShowCard
+              key={show.address}
+              title={show.title}
+              image={show.image}
+              href={`/shows/${show.address}`}
+              tags={show.tags}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

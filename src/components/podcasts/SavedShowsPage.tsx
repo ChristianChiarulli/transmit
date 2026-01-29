@@ -28,10 +28,18 @@ export function SavedShowsPage() {
         </Text>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-6">
-        {shows.map((show) => (
-          <ShowCard key={show.address} title={show.title} image={show.image} href={`/shows/${show.address}`} tags={show.tags} />
-        ))}
+      <div className="mt-6 -mx-4 overflow-x-auto scrollbar-hidden">
+        <div className="flex min-w-max gap-6 px-4 pb-4">
+          {shows.map((show) => (
+            <ShowCard
+              key={show.address}
+              title={show.title}
+              image={show.image}
+              href={`/shows/${show.address}`}
+              tags={show.tags}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
