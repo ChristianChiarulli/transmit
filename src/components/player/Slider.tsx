@@ -72,7 +72,7 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
   let totalTime = parseTime(state.getThumbMaxValue(0))
 
   return (
-    <div {...groupProps} className="relative flex w-full flex-auto min-w-0 touch-none items-center gap-6 border border-red-500">
+    <div {...groupProps} className="relative flex w-full min-w-0 touch-none items-center gap-6">
       {props.label && (
         <label className="sr-only" {...labelProps}>
           {props.label}
@@ -89,11 +89,11 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           props.onChangeStart?.()
         }}
         ref={trackRef}
-        className="relative w-full bg-zinc-100 sm:rounded-full dark:bg-zinc-800"
+        className="w-full flex-1 bg-zinc-100 sm:rounded-full dark:bg-zinc-800 border border-green-500"
       >
         <div
           className={clsx(
-            'h-1 sm:rounded-l-xl sm:rounded-r-md',
+            'h-1 sm:rounded-l-xl sm:rounded-r-md border border-blue-500',
             isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-white' : 'bg-zinc-700 dark:bg-zinc-200',
           )}
           style={{

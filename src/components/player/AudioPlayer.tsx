@@ -57,14 +57,17 @@ export function AudioPlayer({ className }: { className?: string }) {
               </div>
               <ForwardButton player={player} />
             </div>
-            <div className="flex-1 bg-zinc-800 max-w-lg justify-between">
-              <Link
-                href={`/episodes/${player.episode.id}`}
-                className="truncate text-center text-xs/5 font-bold text-slate-900 md:text-left dark:text-white"
-                title={player.episode.title}
-              >
-                {player.episode.title}
-              </Link>
+            <div className="flex max-w-lg flex-1 flex-col bg-zinc-800 rounded">
+              <div className="flex flex-1 justify-center px-2">
+                <Link
+                  href={`/episodes/${player.episode.id}`}
+                  // className="truncate text-center text-xs/5 font-bold text-slate-900 md:text-left dark:text-white"
+                  className="truncate text-center text-xs/5 font-bold text-slate-900 md:text-left dark:text-white"
+                  title={player.episode.title}
+                >
+                  {player.episode.title}
+                </Link>
+              </div>
 
               <Slider
                 label="Current time"
