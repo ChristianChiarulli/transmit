@@ -72,7 +72,7 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
   let totalTime = parseTime(state.getThumbMaxValue(0))
 
   return (
-    <div {...groupProps} className="relative flex w-full flex-auto min-w-0 touch-none items-center gap-6">
+    <div {...groupProps} className="relative flex w-full flex-auto min-w-0 touch-none items-center gap-6 border border-red-500">
       {props.label && (
         <label className="sr-only" {...labelProps}>
           {props.label}
@@ -93,7 +93,7 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
       >
         <div
           className={clsx(
-            'h-2 sm:rounded-l-xl sm:rounded-r-md',
+            'h-1 sm:rounded-l-xl sm:rounded-r-md',
             isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-white' : 'bg-zinc-700 dark:bg-zinc-200',
           )}
           style={{
@@ -119,26 +119,26 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           {...outputProps}
           aria-live="off"
           className={clsx(
-            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 sm:block',
+            'hidden rounded-md px-1 font-mono text-sm/6 sm:block',
             state.getThumbMaxValue(0) === 0 && 'opacity-0',
             isFocusVisible || state.isThumbDragging(0)
               ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
               : 'text-zinc-500 dark:text-zinc-400',
           )}
         >
-          {formatTime(currentTime, totalTime)}
+          {/*{formatTime(currentTime, totalTime)}*/}
         </output>
-        <span className="text-sm/6 text-zinc-300 dark:text-zinc-600" aria-hidden="true">
+        {/*<span className="text-sm/6 text-zinc-300 dark:text-zinc-600" aria-hidden="true">
           /
-        </span>
-        <span
+        </span>*/}
+        {/*<span
           className={clsx(
             'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 text-zinc-500 dark:text-zinc-400 sm:block',
             state.getThumbMaxValue(0) === 0 && 'opacity-0',
           )}
         >
           {formatTime(totalTime)}
-        </span>
+        </span>*/}
       </div>
     </div>
   )

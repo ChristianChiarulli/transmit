@@ -8,6 +8,7 @@ import { MuteButton } from '@/components/player/MuteButton'
 import { PlayButton } from '@/components/player/PlayButton'
 import { RewindButton } from '@/components/player/RewindButton'
 import { Slider } from '@/components/player/Slider'
+import Link from 'next/link'
 
 function parseTime(seconds: number) {
   let hours = Math.floor(seconds / 3600)
@@ -49,14 +50,22 @@ export function AudioPlayer({ className }: { className?: string }) {
             {/*<div className="flex items-center">
               <PlaybackRateButton player={player} />
             </div>*/}
-            <div className="flex flex-none items-center gap-4">
+            <div className="flex flex-none items-center gap-4 py-4">
               <RewindButton player={player} />
               <div>
                 <PlayButton player={player} />
               </div>
               <ForwardButton player={player} />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 bg-zinc-800 max-w-lg justify-between">
+              <Link
+                href={`/episodes/${player.episode.id}`}
+                className="truncate text-center text-xs/5 font-bold text-slate-900 md:text-left dark:text-white"
+                title={player.episode.title}
+              >
+                {player.episode.title}
+              </Link>
+
               <Slider
                 label="Current time"
                 maxValue={player.duration}
