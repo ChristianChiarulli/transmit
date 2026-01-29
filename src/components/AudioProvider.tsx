@@ -8,6 +8,7 @@ export type PlayerEpisode = {
   id: string
   title: string
   showTitle?: string
+  showAddress?: string
   audio: { src: string }
 }
 
@@ -200,7 +201,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           : state.playing
       },
     }
-  }, [state.playing])
+  }, [state.playing, state.muted])
 
   let api = useMemo<PlayerAPI>(() => ({ ...state, ...actions }), [state, actions])
 
@@ -216,6 +217,7 @@ export function useAudioPlayer(episode?: PodcastEpisode) {
       id: episode.address,
       title: episode.title,
       showTitle: episode.showTitle,
+      showAddress: episode.showAddress,
       audio: { src: episode.audio.src },
     }
   }, [episode])
