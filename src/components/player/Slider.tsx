@@ -121,7 +121,7 @@ export function Slider(
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-zinc-200 dark:bg-zinc-700 rounded-b-md" />
         <div
           className={clsx(
-            'pointer-events-none absolute left-0 bottom-0 h-1 sm:rounded-l-xl sm:rounded-r-md',
+            'pointer-events-none absolute left-0 bottom-0 h-1 sm:rounded-bl-md sm:rounded-r-xs',
             isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-zinc-400' : 'bg-zinc-400 dark:bg-zinc-400',
           )}
           style={{
