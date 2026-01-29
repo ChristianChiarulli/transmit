@@ -38,8 +38,8 @@ export function AudioHeader({ className }: { className?: string }) {
   }
 
   return (
-    <div className="flex justify-between gap-6 w-full flex-1 py-1">
-      <div className="flex flex-1 justify-center">
+    <div className="flex w-full flex-1 justify-between gap-6 py-1">
+      <div className="hidden flex-1 justify-center sm:flex">
         <div className="flex flex-none items-center gap-4 py-4">
           <RewindButton player={player} />
           <div>
@@ -48,7 +48,7 @@ export function AudioHeader({ className }: { className?: string }) {
           <ForwardButton player={player} />
         </div>
       </div>
-      <div className="flex max-w-lg flex-1 flex-col rounded bg-zinc-800 xl:min-w-lg">
+      <div className="hidden max-w-lg flex-1 flex-col rounded bg-zinc-800 sm:flex xl:min-w-lg lg:min-w-md md:min-w-sm">
         <div className="flex flex-1 flex-col items-center justify-center px-2 text-center">
           <Link
             href={`/episodes/${player.episode.id}`}
@@ -81,13 +81,13 @@ export function AudioHeader({ className }: { className?: string }) {
           }}
         />
       </div>
-      <div className="flex flex-1 items-center justify-start gap-4">
+      <div className="hidden flex-1 items-center justify-start gap-4 sm:flex">
         <div className="flex items-center">
           <MuteButton player={player} />
         </div>
       </div>
 
-      <div className="flex gap-4 pr-6 items-center">
+      <div className="flex items-center gap-4 sm:pr-6">
         <ThemeSwitcher compact />
         <NostrLogin variant="navbar" />
       </div>
