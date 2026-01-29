@@ -48,14 +48,14 @@ export function AudioHeader({ className }: { className?: string }) {
           <ForwardButton player={player} />
         </div>
       </div>
-      <div className="hidden max-w-lg flex-1 flex-col rounded bg-zinc-800 sm:flex md:min-w-sm lg:min-w-md xl:min-w-lg">
+      <div className="hidden max-w-lg flex-1 flex-col rounded bg-zinc-100 sm:flex md:min-w-sm lg:min-w-md xl:min-w-lg dark:bg-zinc-800">
         <div className="flex flex-1 flex-col items-center justify-center px-2 text-center">
-          <p className="truncate text-xs/5 font-bold text-slate-900 dark:text-white select-none">{player.episode.title}</p>
+          <p className="truncate text-xs/5 font-bold text-zinc-900 dark:text-white select-none">{player.episode.title}</p>
           {player.episode.showTitle ? (
             player.episode.showAddress ? (
               <Link
                 href={`/shows/${player.episode.showAddress}`}
-                className="truncate text-[11px]/5 text-zinc-500 hover:underline dark:text-zinc-400"
+                className="truncate text-[11px]/5 text-zinc-600 hover:underline dark:text-zinc-400"
               >
                 {player.episode.showTitle}
               </Link>
