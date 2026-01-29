@@ -32,7 +32,7 @@ function Thumb(props: {
 
   return (
     <div
-      className="absolute top-1/2 -translate-x-1/2"
+      className="absolute bottom-1.25 -translate-x-1/2"
       style={{
         left: `${state.getThumbPercent(index) * 100}%`,
       }}
@@ -47,13 +47,16 @@ function Thumb(props: {
           thumbProps.onPointerDown?.(...args)
           props.onChangeStart?.()
         }}
-        className={clsx(
-          'h-2.5 rounded-full hover:cursor-pointer',
-          isFocusVisible || state.isThumbDragging(index)
-            ? 'w-1.5 bg-zinc-900 dark:bg-white'
-            : 'w-1 bg-zinc-700 dark:bg-zinc-200',
-        )}
+        className="flex h-6 w-6 items-center justify-center rounded-full"
       >
+        <div
+          className={clsx(
+            'h-2.5 rounded-t-full',
+            isFocusVisible || state.isThumbDragging(index)
+              ? 'w-1.5 bg-zinc-900 dark:bg-zinc-500'
+              : 'w-1 bg-zinc-700 dark:bg-zinc-500',
+          )}
+        />
         <VisuallyHidden>
           <input ref={inputRef} {...mergeProps(inputProps, focusProps)} />
         </VisuallyHidden>
@@ -92,11 +95,12 @@ export function Slider(
           props.onChangeStart?.()
         }}
         ref={trackRef}
-        className="w-full flex-1 bg-zinc-200 dark:bg-zinc-700"
+        className="relative h-5 w-full flex-1 overflow-visible"
       >
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-zinc-200 dark:bg-zinc-700" />
         <div
           className={clsx(
-            'h-1 sm:rounded-l-xl sm:rounded-r-md',
+            'absolute left-0 bottom-0 h-1 sm:rounded-l-xl sm:rounded-r-md',
             isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-zinc-400' : 'bg-zinc-400 dark:bg-zinc-400',
           )}
           style={{
