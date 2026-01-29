@@ -10,7 +10,15 @@ import { EpisodePlayButton } from '@/components/EpisodePlayButton'
 import { PauseIcon } from '@/components/PauseIcon'
 import { PlayIcon } from '@/components/PlayIcon'
 
-function EpisodeEntry({ episode, showTitle }: { episode: PodcastEpisode; showTitle: string }) {
+function EpisodeEntry({
+  episode,
+  showTitle,
+  showAddress,
+}: {
+  episode: PodcastEpisode
+  showTitle: string
+  showAddress: string
+}) {
   let published = dayjs.unix(episode.publishedAt).format('MMM D, YYYY')
 
   return (
@@ -30,7 +38,7 @@ function EpisodeEntry({ episode, showTitle }: { episode: PodcastEpisode; showTit
         </Text>
         <div className="mt-2 flex items-center gap-3 text-sm/6 font-semibold text-zinc-600 dark:text-zinc-400">
           <EpisodePlayButton
-            episode={{ ...episode, showTitle }}
+            episode={{ ...episode, showTitle, showAddress }}
             className="flex items-center gap-2 text-zinc-600 transition hover:text-zinc-900 disabled:opacity-40 dark:text-zinc-400 dark:hover:text-zinc-200"
             disabled={!episode.audio?.src}
             playing={
@@ -74,7 +82,7 @@ export function EpisodeList({ show }: { show: PodcastShow }) {
       )}
       <div className="mt-6 divide-y divide-zinc-200 dark:divide-zinc-800">
         {data?.map((episode) => (
-          <EpisodeEntry key={episode.address} episode={episode} showTitle={show.title} />
+          <EpisodeEntry key={episode.address} episode={episode} showTitle={show.title} showAddress={show.address} />
         ))}
       </div>
     </div>
