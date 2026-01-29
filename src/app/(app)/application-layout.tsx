@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/input'
 import { Navbar } from '@/components/navbar'
 import { AudioHeader } from '@/components/player/AudioHeader'
+import { AudioMobile } from '@/components/player/AudioMobile'
 import {
   Sidebar,
   SidebarBody,
@@ -105,50 +106,53 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
   let pathname = usePathname()
 
   return (
-    <SidebarLayout
-      navbar={
-        <Navbar>
-          <AudioHeader />
-        </Navbar>
-      }
-      sidebar={
-        <Sidebar>
-          <SidebarHeader>
-            <SidebarSection>
-              <div className="px-2 font-semibold tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
-                Transmit
-              </div>
-            </SidebarSection>
-          </SidebarHeader>
+    <>
+      <SidebarLayout
+        navbar={
+          <Navbar>
+            <AudioHeader />
+          </Navbar>
+        }
+        sidebar={
+          <Sidebar>
+            <SidebarHeader>
+              <SidebarSection>
+                <div className="px-2 font-semibold tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
+                  Transmit
+                </div>
+              </SidebarSection>
+            </SidebarHeader>
 
-          <SidebarBody>
-            <SidebarSection>
-              <SidebarItem href="/" current={pathname === '/'}>
-                <HomeIcon />
-                <SidebarLabel>Home</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem href="/shows" current={pathname.startsWith('/shows')}>
-                <Squares2X2Icon />
-                <SidebarLabel>Shows</SidebarLabel>
-              </SidebarItem>
-            </SidebarSection>
-            <SidebarSection>
-              <div className="px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400">Creator</div>
-              <SidebarItem href="/publish" current={pathname.startsWith('/publish')}>
-                <PencilSquareIcon />
-                <SidebarLabel>Publish</SidebarLabel>
-              </SidebarItem>
-            </SidebarSection>
-          </SidebarBody>
-          <SidebarFooter>
-            <SidebarSection>
-              <RelayDropdown />
-            </SidebarSection>
-          </SidebarFooter>
-        </Sidebar>
-      }
-    >
-      {children}
-    </SidebarLayout>
+            <SidebarBody>
+              <SidebarSection>
+                <SidebarItem href="/" current={pathname === '/'}>
+                  <HomeIcon />
+                  <SidebarLabel>Home</SidebarLabel>
+                </SidebarItem>
+                <SidebarItem href="/shows" current={pathname.startsWith('/shows')}>
+                  <Squares2X2Icon />
+                  <SidebarLabel>Shows</SidebarLabel>
+                </SidebarItem>
+              </SidebarSection>
+              <SidebarSection>
+                <div className="px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400">Creator</div>
+                <SidebarItem href="/publish" current={pathname.startsWith('/publish')}>
+                  <PencilSquareIcon />
+                  <SidebarLabel>Publish</SidebarLabel>
+                </SidebarItem>
+              </SidebarSection>
+            </SidebarBody>
+            <SidebarFooter>
+              <SidebarSection>
+                <RelayDropdown />
+              </SidebarSection>
+            </SidebarFooter>
+          </Sidebar>
+        }
+      >
+        {children}
+      </SidebarLayout>
+      <AudioMobile />
+    </>
   )
 }

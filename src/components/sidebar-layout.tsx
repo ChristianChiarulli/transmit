@@ -83,7 +83,7 @@ export function SidebarLayout({
             </div>
           </div>
           <div className="flex-1 overflow-y-auto overscroll-none">
-            <div className="mx-auto flex min-h-full max-w-6xl flex-col p-6">
+            <div className="mx-auto flex min-h-full max-w-6xl flex-col p-6 pb-24 sm:pb-6">
               <div className="flex-1">{children}</div>
               <footer className="mt-16 border-t border-zinc-200 pt-6 text-sm text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
                 Built on Nostr.
