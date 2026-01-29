@@ -74,7 +74,6 @@ export default function ShowPage() {
           </Button>
         </div>
       </div>
-      <Divider className="my-8" />
       <EpisodeList show={show} />
     </div>
   )
