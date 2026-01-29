@@ -80,8 +80,8 @@ export function SidebarLayout({
         <div className="flex h-svh flex-col lg:bg-white dark:lg:bg-zinc-900">
           <div className="hidden border-b border-zinc-200 lg:block lg:bg-white dark:border-zinc-800 dark:lg:bg-zinc-900">{navbar}</div>
           <div className="flex-1 overflow-y-auto overscroll-none">
-            <div className="mx-auto max-w-6xl p-6">
-              {children}
+            <div className="mx-auto flex min-h-full max-w-6xl flex-col p-6">
+              <div className="flex-1">{children}</div>
               <footer className="mt-16 border-t border-zinc-200 pt-6 text-sm text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
                 Built on Nostr. Client-side relays only.
               </footer>

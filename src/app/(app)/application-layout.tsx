@@ -13,7 +13,6 @@ import {
 import { Input } from '@/components/input'
 import { Navbar, NavbarSection, NavbarSpacer } from '@/components/navbar'
 import { NostrLogin } from '@/components/nostr-login'
-import { SidebarShowList } from '@/components/podcasts/SidebarShowList'
 import {
   Sidebar,
   SidebarBody,
@@ -26,7 +25,7 @@ import {
 import { SidebarLayout } from '@/components/sidebar-layout'
 import { ThemeSwitcher } from '@/components/theme-switcher'
 import { useRelayStore } from '@/state/relayStore'
-import { ChevronDownIcon, HomeIcon, PencilSquareIcon, ServerStackIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, HomeIcon, PencilSquareIcon, ServerStackIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
@@ -133,12 +132,18 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
                 <HomeIcon />
                 <SidebarLabel>Home</SidebarLabel>
               </SidebarItem>
+              <SidebarItem href="/shows" current={pathname.startsWith('/shows')}>
+                <Squares2X2Icon />
+                <SidebarLabel>Shows</SidebarLabel>
+              </SidebarItem>
+            </SidebarSection>
+            <SidebarSection>
+              <div className="px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400">Creator</div>
               <SidebarItem href="/publish" current={pathname.startsWith('/publish')}>
                 <PencilSquareIcon />
                 <SidebarLabel>Publish</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
-            <SidebarShowList />
           </SidebarBody>
           <SidebarFooter>
             <SidebarSection>
