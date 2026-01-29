@@ -10,6 +10,7 @@ import { PlaybackRateButton } from '@/components/player/PlaybackRateButton'
 import { PlayButton } from '@/components/player/PlayButton'
 import { RewindButton } from '@/components/player/RewindButton'
 import { Slider } from '@/components/player/Slider'
+import { XMarkIcon } from '@heroicons/react/20/solid'
 
 function parseTime(seconds: number) {
   let hours = Math.floor(seconds / 3600)
@@ -79,16 +80,25 @@ export function AudioPlayer() {
                 player.pause()
               }}
             />
-            <div className="flex items-center gap-4">
-              <div className="flex items-center">
-                <PlaybackRateButton player={player} />
-              </div>
-              <div className="hidden items-center md:flex">
-                <MuteButton player={player} />
-              </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center">
+              <PlaybackRateButton player={player} />
             </div>
+            <div className="hidden items-center md:flex">
+              <MuteButton player={player} />
+            </div>
+            <button
+              type="button"
+              className="group relative rounded-md hover:bg-slate-100 focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:outline-hidden md:order-0"
+              onClick={() => player.clear()}
+              aria-label="Close player"
+            >
+              <div className="absolute -inset-4 md:hidden" />
+              <XMarkIcon className="h-5 w-5 text-slate-500 group-hover:text-slate-700" />
+            </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

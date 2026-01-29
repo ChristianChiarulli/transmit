@@ -21,7 +21,7 @@ function applyTheme(theme: ThemeMode) {
   document.documentElement.classList.toggle('dark', theme === 'dark')
 }
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ compact = false }: { compact?: boolean } = {}) {
   let [theme, setTheme] = useState<ThemeMode | null>(null)
 
   useEffect(() => {
@@ -38,6 +38,20 @@ export function ThemeSwitcher() {
   }
 
   let isDark = theme === 'dark'
+
+  if (compact) {
+    return (
+      <button
+        type="button"
+        onClick={() => toggleTheme(!isDark)}
+        disabled={theme === null}
+        className="group inline-flex items-center rounded-lg p-2 text-zinc-600 hover:bg-zinc-950/5 dark:text-zinc-300 dark:hover:bg-white/10"
+        aria-label="Toggle theme"
+      >
+        {isDark ? <MoonIcon className="size-5" /> : <SunIcon className="size-5" />}
+      </button>
+    )
+  }
 
   return (
     <div className="flex items-center justify-between gap-3 rounded-lg px-2 py-2.5 text-sm/5 font-medium text-zinc-600 dark:text-zinc-300">

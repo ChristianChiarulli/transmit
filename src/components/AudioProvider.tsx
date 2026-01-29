@@ -25,6 +25,7 @@ interface PublicPlayerActions {
   seek: (time: number) => void
   playbackRate: (rate: number) => void
   toggleMute: () => void
+  clear: () => void
   isPlaying: (episode?: PlayerEpisode) => boolean
 }
 
@@ -37,6 +38,7 @@ const enum ActionKind {
   TOGGLE_MUTE = 'TOGGLE_MUTE',
   SET_CURRENT_TIME = 'SET_CURRENT_TIME',
   SET_DURATION = 'SET_DURATION',
+  CLEAR = 'CLEAR',
 }
 
 type Action =
@@ -46,6 +48,7 @@ type Action =
   | { type: ActionKind.TOGGLE_MUTE }
   | { type: ActionKind.SET_CURRENT_TIME; payload: number }
   | { type: ActionKind.SET_DURATION; payload: number }
+  | { type: ActionKind.CLEAR }
 
 const AudioPlayerContext = createContext<PlayerAPI | null>(null)
 
@@ -63,6 +66,8 @@ function audioReducer(state: PlayerState, action: Action): PlayerState {
       return { ...state, currentTime: action.payload }
     case ActionKind.SET_DURATION:
       return { ...state, duration: action.payload }
+    case ActionKind.CLEAR:
+      return { playing: false, muted: state.muted, duration: 0, currentTime: 0, episode: null }
   }
 }
 
@@ -117,6 +122,14 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       },
       toggleMute() {
         dispatch({ type: ActionKind.TOGGLE_MUTE })
+      },
+      clear() {
+        if (playerRef.current) {
+          playerRef.current.pause()
+          playerRef.current.removeAttribute('src')
+          playerRef.current.load()
+        }
+        dispatch({ type: ActionKind.CLEAR })
       },
       isPlaying(episode) {
         return episode

@@ -11,7 +11,7 @@ import {
   DropdownMenu,
 } from '@/components/dropdown'
 import { Input } from '@/components/input'
-import { Navbar, NavbarLabel, NavbarSection, NavbarSpacer } from '@/components/navbar'
+import { Navbar, NavbarSection, NavbarSpacer } from '@/components/navbar'
 import { NostrLogin } from '@/components/nostr-login'
 import { SidebarShowList } from '@/components/podcasts/SidebarShowList'
 import {
@@ -110,13 +110,9 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
     <SidebarLayout
       navbar={
         <Navbar>
-          <NavbarSection>
-            <div className="lg:pl-4">
-              <NavbarLabel>Transmit</NavbarLabel>
-            </div>
-          </NavbarSection>
           <NavbarSpacer />
           <NavbarSection>
+            <ThemeSwitcher compact />
             <NostrLogin variant="navbar" />
           </NavbarSection>
         </Navbar>
@@ -125,7 +121,9 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
         <Sidebar>
           <SidebarHeader>
             <SidebarSection>
-              <RelayDropdown />
+              <div className="px-2 font-semibold tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
+                Transmit
+              </div>
             </SidebarSection>
           </SidebarHeader>
 
@@ -144,7 +142,7 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
           </SidebarBody>
           <SidebarFooter>
             <SidebarSection>
-              <ThemeSwitcher />
+              <RelayDropdown />
             </SidebarSection>
           </SidebarFooter>
         </Sidebar>
