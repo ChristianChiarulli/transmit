@@ -165,12 +165,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       seekBy(amount) {
         if (playerRef.current) {
           let current = Number(playerRef.current.seek()) || 0
-          playerRef.current.seek(current + amount)
+          let next = current + amount
+          playerRef.current.seek(next)
+          dispatch({ type: ActionKind.SET_CURRENT_TIME, payload: Math.floor(next) })
         }
       },
       seek(time) {
         if (playerRef.current) {
           playerRef.current.seek(time)
+          dispatch({ type: ActionKind.SET_CURRENT_TIME, payload: Math.floor(time) })
         }
       },
       playbackRate(rate) {
