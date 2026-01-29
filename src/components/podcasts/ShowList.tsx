@@ -18,7 +18,7 @@ export function ShowList() {
       {!isLoading && !error && data?.length === 0 && (
         <Text className="mt-4">No shows found yet. Publish one to get started.</Text>
       )}
-      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="mt-6 flex flex-wrap gap-6">
         {data?.map((show) => (
           <ShowCard
             key={show.address}

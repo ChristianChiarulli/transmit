@@ -28,7 +28,7 @@ export function SavedShowsPage() {
         </Text>
       )}
 
-      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="mt-6 flex flex-wrap gap-6">
         {shows.map((show) => (
           <ShowCard key={show.address} title={show.title} image={show.image} href={`/shows/${show.address}`} tags={show.tags} />
         ))}

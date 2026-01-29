@@ -16,7 +16,7 @@ export function ShowCard({
   tags: string[]
 }) {
   return (
-    <Link href={href} className="group block cursor-pointer">
+    <Link href={href} className="group block w-48 flex-none cursor-pointer">
       <div className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition dark:border-zinc-500/50 dark:bg-zinc-900">
         {image ? (
           <>
