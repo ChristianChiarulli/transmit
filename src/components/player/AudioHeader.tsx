@@ -37,7 +37,7 @@ export function AudioHeader({ className }: { className?: string }) {
   let hasEpisode = Boolean(player.episode)
 
   return (
-    <div className="flex w-full flex-1 justify-between gap-6 py-1">
+    <div className="flex w-full flex-1 justify-end sm:justify-between gap-6 py-1">
       <div className="hidden flex-1 justify-center sm:flex">
         <div className={`flex flex-none items-center gap-4 pl-2 md:pl-6 ${hasEpisode ? '' : 'pointer-events-none opacity-40'}`}>
           <RewindButton player={player} />
