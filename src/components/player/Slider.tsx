@@ -62,11 +62,14 @@ function Thumb(props: {
   )
 }
 
-export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStart?: () => void }) {
+export function Slider(
+  props: SliderStateOptions<Array<number>> & { onChangeStart?: () => void; showOutput?: boolean },
+) {
   let trackRef = useRef<React.ElementRef<'div'>>(null)
   let state = useSliderState(props)
   let { groupProps, trackProps, labelProps, outputProps } = useSlider(props, state, trackRef)
   let { focusProps, isFocusVisible } = useFocusRing()
+  let showOutput = props.showOutput ?? true
 
   let currentTime = parseTime(state.getThumbValue(0))
   let totalTime = parseTime(state.getThumbMaxValue(0))
@@ -89,11 +92,11 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           props.onChangeStart?.()
         }}
         ref={trackRef}
-        className="w-full flex-1 bg-zinc-100 sm:rounded-full dark:bg-zinc-800 border border-green-500"
+        className="w-full flex-1 bg-zinc-100 sm:rounded-full dark:bg-zinc-800"
       >
         <div
           className={clsx(
-            'h-1 sm:rounded-l-xl sm:rounded-r-md border border-blue-500',
+            'h-1 sm:rounded-l-xl sm:rounded-r-md',
             isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-white' : 'bg-zinc-700 dark:bg-zinc-200',
           )}
           style={{
@@ -114,32 +117,34 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           isFocusVisible={isFocusVisible}
         />
       </div>
-      <div className="hidden items-center gap-2 sm:flex">
-        <output
-          {...outputProps}
-          aria-live="off"
-          className={clsx(
-            'hidden rounded-md px-1 font-mono text-sm/6 sm:block',
-            state.getThumbMaxValue(0) === 0 && 'opacity-0',
-            isFocusVisible || state.isThumbDragging(0)
-              ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
-              : 'text-zinc-500 dark:text-zinc-400',
-          )}
-        >
-          {/*{formatTime(currentTime, totalTime)}*/}
-        </output>
-        {/*<span className="text-sm/6 text-zinc-300 dark:text-zinc-600" aria-hidden="true">
-          /
-        </span>*/}
-        {/*<span
-          className={clsx(
-            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 text-zinc-500 dark:text-zinc-400 sm:block',
-            state.getThumbMaxValue(0) === 0 && 'opacity-0',
-          )}
-        >
-          {formatTime(totalTime)}
-        </span>*/}
-      </div>
+      {showOutput ? (
+        <div className="hidden items-center gap-2 sm:flex">
+          <output
+            {...outputProps}
+            aria-live="off"
+            className={clsx(
+              'hidden rounded-md px-1 font-mono text-sm/6 sm:block',
+              state.getThumbMaxValue(0) === 0 && 'opacity-0',
+              isFocusVisible || state.isThumbDragging(0)
+                ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
+                : 'text-zinc-500 dark:text-zinc-400',
+            )}
+          >
+            {/*{formatTime(currentTime, totalTime)}*/}
+          </output>
+          {/*<span className="text-sm/6 text-zinc-300 dark:text-zinc-600" aria-hidden="true">
+            /
+          </span>*/}
+          {/*<span
+            className={clsx(
+              'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 text-zinc-500 dark:text-zinc-400 sm:block',
+              state.getThumbMaxValue(0) === 0 && 'opacity-0',
+            )}
+          >
+            {formatTime(totalTime)}
+          </span>*/}
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { Howl } from 'howler'
 export type PlayerEpisode = {
   id: string
   title: string
+  showTitle?: string
   audio: { src: string }
 }
 
@@ -211,6 +212,7 @@ export function useAudioPlayer(episode?: PodcastEpisode) {
     return {
       id: episode.address,
       title: episode.title,
+      showTitle: episode.showTitle,
       audio: { src: episode.audio.src },
     }
   }, [episode])

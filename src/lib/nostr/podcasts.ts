@@ -36,6 +36,7 @@ export interface PodcastEpisode {
   pubkey: string
   d: string
   title: string
+  showTitle?: string
   summary?: string
   content?: string
   publishedAt: number

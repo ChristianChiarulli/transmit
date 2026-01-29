@@ -57,22 +57,26 @@ export function AudioPlayer({ className }: { className?: string }) {
               </div>
               <ForwardButton player={player} />
             </div>
-            <div className="flex max-w-lg flex-1 flex-col bg-zinc-800 rounded">
-              <div className="flex flex-1 justify-center px-2">
+            <div className="flex max-w-lg flex-1 flex-col rounded bg-zinc-800">
+              <div className="flex flex-1 flex-col items-center justify-center px-2 text-center md:items-start md:text-left">
                 <Link
                   href={`/episodes/${player.episode.id}`}
-                  // className="truncate text-center text-xs/5 font-bold text-slate-900 md:text-left dark:text-white"
-                  className="truncate text-center text-xs/5 font-bold text-slate-900 md:text-left dark:text-white"
+                  className="truncate text-xs/5 font-bold text-slate-900 dark:text-white"
                   title={player.episode.title}
                 >
                   {player.episode.title}
                 </Link>
+                {player.episode.showTitle ? (
+                  <p className="truncate text-[11px]/5 text-zinc-500 dark:text-zinc-400">
+                    {player.episode.showTitle}
+                  </p>
+                ) : null}
               </div>
-
               <Slider
                 label="Current time"
                 maxValue={player.duration}
                 step={1}
+                showOutput={false}
                 value={[currentTime ?? player.currentTime]}
                 onChange={([value]) => setCurrentTime(value)}
                 onChangeEnd={([value]) => {
