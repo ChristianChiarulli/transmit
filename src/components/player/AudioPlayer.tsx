@@ -58,7 +58,7 @@ export function AudioPlayer({ className }: { className?: string }) {
               <ForwardButton player={player} />
             </div>
             <div className="flex max-w-lg flex-1 flex-col rounded bg-zinc-800">
-              <div className="flex flex-1 flex-col items-center justify-center px-2 text-center md:items-start md:text-left">
+              <div className="flex flex-1 flex-col items-center justify-center px-2 text-center">
                 <Link
                   href={`/episodes/${player.episode.id}`}
                   className="truncate text-xs/5 font-bold text-slate-900 dark:text-white"
