@@ -86,21 +86,42 @@ export function Slider(
       )}
       <div
         {...trackProps}
-        onMouseDown={(...args) => {
-          trackProps.onMouseDown?.(...args)
+        onMouseDown={(e) => {
+          trackProps.onMouseDown?.(e)
           props.onChangeStart?.()
         }}
-        onPointerDown={(...args) => {
-          trackProps.onPointerDown?.(...args)
+        onPointerDown={(e) => {
+          trackProps.onPointerDown?.(e)
+          props.onChangeStart?.()
+        }}
+        onClick={(e) => {
+          if (!trackRef.current) return
+          const rect = trackRef.current.getBoundingClientRect()
+          const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+          const value = percent * (state.getThumbMaxValue(0) - state.getThumbMinValue(0)) + state.getThumbMinValue(0)
+          state.setThumbValue(0, value)
           props.onChangeStart?.()
         }}
         ref={trackRef}
-        className="relative h-5 w-full flex-1 overflow-visible"
+        className="relative h-2 w-full flex-1 overflow-visible"
       >
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-zinc-200 dark:bg-zinc-700" />
+        {/* Invisible hit area extending below */}
+        <div
+          className="absolute inset-x-0 -bottom-1 h-1"
+          onClick={(e) => {
+            e.stopPropagation()
+            if (!trackRef.current) return
+            const rect = trackRef.current.getBoundingClientRect()
+            const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+            const value = percent * (state.getThumbMaxValue(0) - state.getThumbMinValue(0)) + state.getThumbMinValue(0)
+            state.setThumbValue(0, value)
+            props.onChangeStart?.()
+          }}
+        />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-zinc-200 dark:bg-zinc-700 rounded-b-md" />
         <div
           className={clsx(
-            'absolute left-0 bottom-0 h-1 sm:rounded-l-xl sm:rounded-r-md',
+            'pointer-events-none absolute left-0 bottom-0 h-1 sm:rounded-l-xl sm:rounded-r-md',
             isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-zinc-400' : 'bg-zinc-400 dark:bg-zinc-400',
           )}
           style={{

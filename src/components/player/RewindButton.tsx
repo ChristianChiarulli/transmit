@@ -22,7 +22,7 @@ export function RewindButton({ player, amount = 10 }: { player: PlayerAPI; amoun
   return (
     <button
       type="button"
-      className="group relative rounded-full focus:outline-hidden"
+      className="group relative rounded-full focus:outline-hidden hover:cursor-pointer"
       onClick={() => player.seekBy(-amount)}
       aria-label={`Rewind ${amount} seconds`}
     >

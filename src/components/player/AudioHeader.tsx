@@ -40,7 +40,7 @@ export function AudioHeader({ className }: { className?: string }) {
   return (
     <div className="flex w-full flex-1 justify-between gap-6 py-1">
       <div className="hidden flex-1 justify-center sm:flex">
-        <div className="flex flex-none items-center gap-4 py-4">
+        <div className="flex flex-none items-center gap-4">
           <RewindButton player={player} />
           <div>
             <PlayButton player={player} />
@@ -58,7 +58,7 @@ export function AudioHeader({ className }: { className?: string }) {
             {player.episode.title}
           </Link>
           {player.episode.showTitle ? (
-            <p className="truncate text-[11px]/5 text-zinc-500 dark:text-zinc-400">{player.episode.showTitle}</p>
+            <p className="truncate flex items-end justify-end text-[11px]/5 text-zinc-500 dark:text-zinc-400">{player.episode.showTitle}</p>
           ) : null}
         </div>
         <Slider

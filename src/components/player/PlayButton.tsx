@@ -7,7 +7,7 @@ export function PlayButton({ player }: { player: PlayerAPI }) {
   return (
     <button
       type="button"
-      className={`group relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white hover:bg-zinc-800 focus:outline-hidden`}
+      className={`group relative flex shrink-0 items-center justify-center text-zinc-400 hover:cursor-pointer focus:outline-hidden hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-200`}
       onClick={() => player.toggle()}
       aria-label={player.playing ? 'Pause' : 'Play'}
     >
@@ -15,7 +15,7 @@ export function PlayButton({ player }: { player: PlayerAPI }) {
       <Icon
         className={`h-4 w-4 fill-current group-active:opacity-80 md:h-6 md:w-6 ${
           player.playing ? '' : 'translate-x-1'
-        }`}
+        } `}
       />
     </button>
   )

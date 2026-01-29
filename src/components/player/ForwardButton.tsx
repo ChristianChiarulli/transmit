@@ -24,7 +24,7 @@ export function ForwardButton({ player, amount = 10 }: { player: PlayerAPI; amou
   return (
     <button
       type="button"
-      className="group relative rounded-full focus:outline-hidden"
+      className="group relative rounded-full focus:outline-hidden hover:cursor-pointer"
       onClick={() => player.seekBy(amount)}
       aria-label={`Fast-forward ${amount} seconds`}
     >
