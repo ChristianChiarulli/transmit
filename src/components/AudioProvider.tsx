@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useMemo, useReducer, useRef } from 'react'
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react'
 import type { PodcastEpisode } from '@/lib/nostr/podcasts'
+import { Howl } from 'howler'
 
 export type PlayerEpisode = {
   id: string
@@ -79,7 +80,40 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     currentTime: 0,
     episode: null,
   })
-  let playerRef = useRef<React.ElementRef<'audio'>>(null)
+  let playerRef = useRef<Howl | null>(null)
+  let currentSrcRef = useRef<string | null>(null)
+  let rafRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = null
+      }
+      playerRef.current?.unload()
+      playerRef.current = null
+      currentSrcRef.current = null
+    }
+  }, [])
+
+  function stopRaf() {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+  }
+
+  function startRaf() {
+    stopRaf()
+    let tick = () => {
+      let howl = playerRef.current
+      if (!howl) return
+      let current = Number(howl.seek()) || 0
+      dispatch({ type: ActionKind.SET_CURRENT_TIME, payload: Math.floor(current) })
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+  }
 
   let actions = useMemo<PublicPlayerActions>(() => {
     return {
@@ -87,13 +121,35 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         if (episode) {
           dispatch({ type: ActionKind.SET_META, payload: episode })
 
-          if (playerRef.current && playerRef.current.currentSrc !== episode.audio.src) {
-            let playbackRate = playerRef.current.playbackRate
-            playerRef.current.src = episode.audio.src
-            playerRef.current.load()
-            playerRef.current.pause()
-            playerRef.current.playbackRate = playbackRate
-            playerRef.current.currentTime = 0
+          if (currentSrcRef.current !== episode.audio.src) {
+            playerRef.current?.unload()
+            playerRef.current = new Howl({
+              src: [episode.audio.src],
+              html5: true,
+              volume: 1,
+              preload: true,
+              onplay: () => {
+                dispatch({ type: ActionKind.PLAY })
+                startRaf()
+              },
+              onpause: () => {
+                dispatch({ type: ActionKind.PAUSE })
+                stopRaf()
+              },
+              onstop: () => {
+                dispatch({ type: ActionKind.PAUSE })
+                stopRaf()
+              },
+              onend: () => {
+                dispatch({ type: ActionKind.PAUSE })
+                stopRaf()
+              },
+              onload: () => {
+                let duration = playerRef.current?.duration() ?? 0
+                dispatch({ type: ActionKind.SET_DURATION, payload: Math.floor(duration) })
+              },
+            })
+            currentSrcRef.current = episode.audio.src
           }
         }
 
@@ -107,33 +163,36 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       },
       seekBy(amount) {
         if (playerRef.current) {
-          playerRef.current.currentTime += amount
+          let current = Number(playerRef.current.seek()) || 0
+          playerRef.current.seek(current + amount)
         }
       },
       seek(time) {
         if (playerRef.current) {
-          playerRef.current.currentTime = time
+          playerRef.current.seek(time)
         }
       },
       playbackRate(rate) {
         if (playerRef.current) {
-          playerRef.current.playbackRate = rate
+          playerRef.current.rate(rate)
         }
       },
       toggleMute() {
+        let next = !state.muted
+        playerRef.current?.mute(next)
         dispatch({ type: ActionKind.TOGGLE_MUTE })
       },
       clear() {
-        if (playerRef.current) {
-          playerRef.current.pause()
-          playerRef.current.removeAttribute('src')
-          playerRef.current.load()
-        }
+        stopRaf()
+        playerRef.current?.stop()
+        playerRef.current?.unload()
+        playerRef.current = null
+        currentSrcRef.current = null
         dispatch({ type: ActionKind.CLEAR })
       },
       isPlaying(episode) {
         return episode
-          ? state.playing && playerRef.current?.currentSrc === episode.audio.src
+          ? state.playing && currentSrcRef.current === episode.audio.src
           : state.playing
       },
     }
@@ -141,29 +200,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   let api = useMemo<PlayerAPI>(() => ({ ...state, ...actions }), [state, actions])
 
-  return (
-    <>
-      <AudioPlayerContext.Provider value={api}>{children}</AudioPlayerContext.Provider>
-      <audio
-        ref={playerRef}
-        onPlay={() => dispatch({ type: ActionKind.PLAY })}
-        onPause={() => dispatch({ type: ActionKind.PAUSE })}
-        onTimeUpdate={(event) => {
-          dispatch({
-            type: ActionKind.SET_CURRENT_TIME,
-            payload: Math.floor(event.currentTarget.currentTime),
-          })
-        }}
-        onDurationChange={(event) => {
-          dispatch({
-            type: ActionKind.SET_DURATION,
-            payload: Math.floor(event.currentTarget.duration),
-          })
-        }}
-        muted={state.muted}
-      />
-    </>
-  )
+  return <AudioPlayerContext.Provider value={api}>{children}</AudioPlayerContext.Provider>
 }
 
 export function useAudioPlayer(episode?: PodcastEpisode) {

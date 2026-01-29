@@ -66,16 +66,11 @@ export function SidebarLayout({
       </MobileSidebar>
 
       {/* Navbar on mobile */}
-      <header className="flex items-center px-4 lg:hidden">
+      <header className="flex items-center w-full px-4 lg:hidden">
         <div className="py-2.5">
           <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
             <OpenMenuIcon />
           </NavbarItem>
-        </div>
-        <div className="items-center gap-6 px-6 hidden sm:flex">
-          <div className="flex-1 min-w-0">
-            <AudioPlayer className="block" />
-          </div>
         </div>
         <div className="min-w-0 flex-1">{navbar}</div>
       </header>
@@ -85,10 +80,10 @@ export function SidebarLayout({
         <div className="flex h-svh flex-col lg:bg-white dark:lg:bg-zinc-900">
           <div className="hidden border-b border-zinc-200 lg:block lg:bg-white dark:border-zinc-800 dark:lg:bg-zinc-900">
             <div className="flex items-center gap-6 px-6">
-              <div className="flex-1 min-w-0">
-                <AudioPlayer className="block" />
-              </div>
-              <div className="shrink-0">{navbar}</div>
+              {/*<div className="flex-1 min-w-0">
+                <AudioPlayer className="hidden w-full lg:block" />
+              </div>*/}
+              <div className="min-w-0 flex-1">{navbar}</div>
             </div>
           </div>
           <div className="flex-1 overflow-y-auto overscroll-none">
@@ -101,7 +96,7 @@ export function SidebarLayout({
           </div>
         </div>
       </main>
-      <AudioPlayer className="fixed inset-x-0 bottom-0 z-10 sm:hidden" />
+      <AudioPlayer className="fixed inset-x-0 bottom-0 z-10 lg:hidden" />
     </div>
   )
 }

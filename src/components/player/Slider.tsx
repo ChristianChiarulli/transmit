@@ -72,7 +72,7 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
   let totalTime = parseTime(state.getThumbMaxValue(0))
 
   return (
-    <div {...groupProps} className="absolute inset-x-0 bottom-full flex flex-auto touch-none items-center gap-6 md:relative">
+    <div {...groupProps} className="relative flex w-full flex-auto min-w-0 touch-none items-center gap-6">
       {props.label && (
         <label className="sr-only" {...labelProps}>
           {props.label}
@@ -89,11 +89,11 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           props.onChangeStart?.()
         }}
         ref={trackRef}
-        className="relative w-full bg-zinc-100 md:rounded-full dark:bg-zinc-800"
+        className="relative w-full bg-zinc-100 sm:rounded-full dark:bg-zinc-800"
       >
         <div
           className={clsx(
-            'h-2 md:rounded-l-xl md:rounded-r-md',
+            'h-2 sm:rounded-l-xl sm:rounded-r-md',
             isFocusVisible || state.isThumbDragging(0) ? 'bg-zinc-900 dark:bg-white' : 'bg-zinc-700 dark:bg-zinc-200',
           )}
           style={{
@@ -114,12 +114,12 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
           isFocusVisible={isFocusVisible}
         />
       </div>
-      <div className="hidden items-center gap-2 md:flex">
+      <div className="hidden items-center gap-2 sm:flex">
         <output
           {...outputProps}
           aria-live="off"
           className={clsx(
-            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 md:block',
+            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 sm:block',
             state.getThumbMaxValue(0) === 0 && 'opacity-0',
             isFocusVisible || state.isThumbDragging(0)
               ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
@@ -133,7 +133,7 @@ export function Slider(props: SliderStateOptions<Array<number>> & { onChangeStar
         </span>
         <span
           className={clsx(
-            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 text-zinc-500 dark:text-zinc-400 md:block',
+            'hidden rounded-md px-1 py-0.5 font-mono text-sm/6 text-zinc-500 dark:text-zinc-400 sm:block',
             state.getThumbMaxValue(0) === 0 && 'opacity-0',
           )}
         >

@@ -11,8 +11,9 @@ import {
   DropdownMenu,
 } from '@/components/dropdown'
 import { Input } from '@/components/input'
-import { Navbar, NavbarSection, NavbarSpacer } from '@/components/navbar'
+import { Navbar, NavbarDivider, NavbarSection, NavbarSpacer } from '@/components/navbar'
 import { NostrLogin } from '@/components/nostr-login'
+import { AudioPlayer } from '@/components/player/AudioPlayer'
 import {
   Sidebar,
   SidebarBody,
@@ -109,9 +110,13 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
     <SidebarLayout
       navbar={
         <Navbar>
+          <AudioPlayer className="hidden w-full lg:block" />
           <NavbarSpacer />
           <NavbarSection>
             <ThemeSwitcher compact />
+          </NavbarSection>
+          <NavbarDivider />
+          <NavbarSection>
             <NostrLogin variant="navbar" />
           </NavbarSection>
         </Navbar>

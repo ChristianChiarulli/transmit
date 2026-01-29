@@ -35,8 +35,8 @@ export function AudioPlayer({ className }: { className?: string }) {
   }
 
   return (
-    <div className={`border-0 bg-transparent text-zinc-900 dark:text-white ${className ?? ''}`}>
-      <div className="mx-auto flex max-w-6xl items-center gap-6 px-0">
+    <div className={`w-full bg-transparent text-zinc-900 dark:text-white ${className ?? ''}`}>
+      <div className="flex w-full items-center gap-6 px-0">
         <div className="mb-[env(safe-area-inset-bottom)] flex flex-1 flex-col gap-3 overflow-hidden">
           {/*<Link
             href={`/episodes/${player.episode.id}`}
@@ -56,24 +56,26 @@ export function AudioPlayer({ className }: { className?: string }) {
               </div>
               <ForwardButton player={player} />
             </div>
-            <Slider
-              label="Current time"
-              maxValue={player.duration}
-              step={1}
-              value={[currentTime ?? player.currentTime]}
-              onChange={([value]) => setCurrentTime(value)}
-              onChangeEnd={([value]) => {
-                player.seek(value)
-                if (wasPlayingRef.current) {
-                  player.play()
-                }
-              }}
-              numberFormatter={{ format: formatHumanTime } as Intl.NumberFormat}
-              onChangeStart={() => {
-                wasPlayingRef.current = player.playing
-                player.pause()
-              }}
-            />
+            <div className="flex-1">
+              <Slider
+                label="Current time"
+                maxValue={player.duration}
+                step={1}
+                value={[currentTime ?? player.currentTime]}
+                onChange={([value]) => setCurrentTime(value)}
+                onChangeEnd={([value]) => {
+                  player.seek(value)
+                  if (wasPlayingRef.current) {
+                    player.play()
+                  }
+                }}
+                numberFormatter={{ format: formatHumanTime } as Intl.NumberFormat}
+                onChangeStart={() => {
+                  wasPlayingRef.current = player.playing
+                  player.pause()
+                }}
+              />
+            </div>
             <div className="flex items-center gap-4">
               <div className="hidden items-center md:flex">
                 <MuteButton player={player} />
