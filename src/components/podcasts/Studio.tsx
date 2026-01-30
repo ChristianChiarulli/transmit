@@ -95,7 +95,7 @@ function ShowCard({
   return (
     <button
       onClick={onSelect}
-      className="w-full rounded-2xl bg-white p-5 text-left shadow-sm transition-shadow hover:shadow-md dark:bg-zinc-900/70"
+      className="w-full border-b border-zinc-200/80 pb-5 text-left transition-colors last:border-b-0 dark:border-zinc-800/80"
     >
       <div className="flex items-center gap-4">
         <div
@@ -130,8 +130,8 @@ function EpisodeRow({
   let duration = formatDuration(episode.audioVariants[0]?.duration ?? null)
 
   return (
-    <div className="rounded-xl bg-white p-4 shadow-sm dark:bg-zinc-900/70">
-      <div className="flex items-center gap-4">
+    <div className="border-b border-zinc-200/80 pb-4 last:border-b-0 dark:border-zinc-800/80">
+      <div className="flex items-center gap-4 pt-4 first:pt-0">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 dark:bg-white/10">
           <PlayIcon className="h-4 w-4 translate-x-0.5 text-zinc-600 dark:text-zinc-300" />
         </div>
@@ -333,7 +333,7 @@ function ShowStudio({
         All Shows
       </button>
 
-      <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm dark:bg-zinc-900/70">
+      <div className="mb-8 border-b border-zinc-200/80 pb-6 dark:border-zinc-800/80">
         <div className="flex gap-5">
           <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
             {show.image ? (
