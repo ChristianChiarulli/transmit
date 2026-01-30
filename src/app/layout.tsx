@@ -2,12 +2,25 @@ import '@/styles/tailwind.css'
 import type { Metadata } from 'next'
 import { Providers } from '@/components/Providers'
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
 export const metadata: Metadata = {
   title: {
-    template: '%s - Catalyst',
-    default: 'Catalyst',
+    template: '%s – Transmit',
+    default: 'Transmit',
   },
-  description: '',
+  description: 'Publish and manage Nostr podcasts. Create shows, publish episodes, and distribute to relays.',
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    type: 'website',
+    title: 'Transmit',
+    description: 'Publish and manage Nostr podcasts. Create shows, publish episodes, and distribute to relays.',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Transmit',
+    description: 'Publish and manage Nostr podcasts. Create shows, publish episodes, and distribute to relays.',
+  },
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

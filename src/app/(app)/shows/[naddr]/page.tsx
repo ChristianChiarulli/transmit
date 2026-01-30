@@ -6,14 +6,17 @@ import { Divider } from '@/components/divider'
 import { Heading } from '@/components/heading'
 import { Text } from '@/components/text'
 import { EpisodeList } from '@/components/podcasts/EpisodeList'
-import { useShow } from '@/hooks/usePodcasts'
+import { useEpisodesForShow, useShow } from '@/hooks/usePodcasts'
 import { useShowList } from '@/hooks/useShowList'
 import { Button } from '@/components/button'
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 export default function ShowPage() {
   let params = useParams<{ naddr: string }>()
   let naddr = params?.naddr ?? null
   let { data: show, isLoading, error } = useShow(naddr)
+  let { data: episodes = [] } = useEpisodesForShow(show?.addressTag ?? null)
   let { isSaved, saveShow, removeShow, isSaving, pubkey } = useShowList()
 
   if (isLoading) {
@@ -22,6 +25,24 @@ export default function ShowPage() {
 
   if (error || !show) {
     return <Text className="text-red-600">Unable to load this show.</Text>
+  }
+
+  let jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'PodcastSeries',
+    name: show.title,
+    description: show.content ?? undefined,
+    url: `${siteUrl}/shows/${show.address}`,
+    image: show.image ? [show.image] : undefined,
+    episode: episodes.map((episode) => ({
+      '@type': 'PodcastEpisode',
+      name: episode.title,
+      description: episode.summary ?? episode.content ?? undefined,
+      datePublished: new Date(episode.publishedAt * 1000).toISOString(),
+      associatedMedia: episode.audio?.src
+        ? { '@type': 'MediaObject', contentUrl: episode.audio.src }
+        : undefined,
+    })),
   }
 
   let saved = isSaved(show.addressTag)
@@ -38,6 +59,7 @@ export default function ShowPage() {
 
   return (
     <div className="mx-auto w-full max-w-2xl">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <header className="mb-12 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
         <div className="relative h-44 w-44 shrink-0">
           <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 shadow-xl">
