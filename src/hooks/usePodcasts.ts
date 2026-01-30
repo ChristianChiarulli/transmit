@@ -36,6 +36,25 @@ export function useShows() {
   })
 }
 
+export function useShowsByAuthor(pubkey: string | null) {
+  let relay = useReadRelay()
+
+  return useQuery({
+    queryKey: ['shows-by-author', relay, pubkey],
+    queryFn: async () => {
+      if (!relay || !pubkey) return []
+      let events = await fetchEvents(relay, {
+        kinds: [PODCAST_SHOW_KIND],
+        authors: [pubkey],
+        limit: 200,
+      })
+      return filterShows(events)
+    },
+    enabled: Boolean(relay && pubkey),
+    staleTime: 30_000,
+  })
+}
+
 export function useShow(naddr: string | null) {
   let relay = useReadRelay()
 

@@ -14,7 +14,7 @@ export default function PublishPage() {
   let [activeTab, setActiveTab] = useState<Tab>('show')
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto max-w-2xl">
       <Heading>Publish</Heading>
       <Divider className="my-6" />
       <div className="mt-6 flex gap-2">

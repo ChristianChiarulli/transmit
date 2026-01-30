@@ -25,7 +25,14 @@ import {
 } from '@/components/sidebar'
 import { SidebarLayout } from '@/components/sidebar-layout'
 import { useRelayStore } from '@/state/relayStore'
-import { ChevronDownIcon, HomeIcon, PencilSquareIcon, ServerStackIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import {
+  ChevronDownIcon,
+  HomeIcon,
+  MicrophoneIcon,
+  PencilSquareIcon,
+  ServerStackIcon,
+  Squares2X2Icon,
+} from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
@@ -134,13 +141,17 @@ export function ApplicationLayout({ children }: { children: React.ReactNode }) {
                   <SidebarLabel>Shows</SidebarLabel>
                 </SidebarItem>
               </SidebarSection>
-              <SidebarSection>
-                <div className="px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400">Creator</div>
-                <SidebarItem href="/publish" current={pathname.startsWith('/publish')}>
-                  <PencilSquareIcon />
-                  <SidebarLabel>Publish</SidebarLabel>
-                </SidebarItem>
-              </SidebarSection>
+            <SidebarSection>
+              <div className="px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400">Creator</div>
+              <SidebarItem href="/publish" current={pathname.startsWith('/publish')}>
+                <PencilSquareIcon />
+                <SidebarLabel>Publish</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem href="/studio" current={pathname.startsWith('/studio')}>
+                <MicrophoneIcon />
+                <SidebarLabel>Studio</SidebarLabel>
+              </SidebarItem>
+            </SidebarSection>
             </SidebarBody>
             <SidebarFooter>
               <SidebarSection>
