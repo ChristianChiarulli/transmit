@@ -29,8 +29,7 @@ export async function signEventWithKey(event: EventTemplate, secretKey?: string)
     throw new Error('NIP-07 signer not available')
   }
 
-  let pubkey = await window.nostr.getPublicKey()
-  return window.nostr.signEvent({ ...event, pubkey })
+  return window.nostr.signEvent(event)
 }
 
 export async function publishEvent(event: Event, relays: string[]) {

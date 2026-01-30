@@ -18,10 +18,18 @@ export default function PublishPage() {
       <Heading>Publish</Heading>
       <Divider className="my-6" />
       <div className="mt-6 flex gap-2">
-        <Button plain={activeTab !== 'show'} onClick={() => setActiveTab('show')}>
+        <Button
+          plain
+          onClick={() => setActiveTab('show')}
+          className={activeTab === 'show' ? 'bg-zinc-950/5 dark:bg-white/10' : 'text-zinc-500 dark:text-zinc-400'}
+        >
           Show
         </Button>
-        <Button plain={activeTab !== 'episode'} onClick={() => setActiveTab('episode')}>
+        <Button
+          plain
+          onClick={() => setActiveTab('episode')}
+          className={activeTab === 'episode' ? 'bg-zinc-950/5 dark:bg-white/10' : 'text-zinc-500 dark:text-zinc-400'}
+        >
           Episode
         </Button>
       </div>

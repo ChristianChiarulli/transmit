@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef } from 'react'
 import type { PodcastEpisode } from '@/lib/nostr/podcasts'
 import { Howl } from 'howler'
 
@@ -98,14 +98,14 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  function stopRaf() {
+  const stopRaf = useCallback(() => {
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current)
       rafRef.current = null
     }
-  }
+  }, [])
 
-  function startRaf() {
+  const startRaf = useCallback(() => {
     stopRaf()
     let tick = () => {
       let howl = playerRef.current
@@ -115,7 +115,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       rafRef.current = requestAnimationFrame(tick)
     }
     rafRef.current = requestAnimationFrame(tick)
-  }
+  }, [stopRaf])
 
   let actions = useMemo<PublicPlayerActions>(() => {
     return {
@@ -201,7 +201,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           : state.playing
       },
     }
-  }, [state.playing, state.muted])
+  }, [startRaf, stopRaf, state.playing, state.muted])
 
   let api = useMemo<PlayerAPI>(() => ({ ...state, ...actions }), [state, actions])
 
@@ -222,12 +222,12 @@ export function useAudioPlayer(episode?: PodcastEpisode) {
     }
   }, [episode])
 
-  if (!playerEpisode) {
-    return player!
-  }
+  return useMemo<PlayerAPI>(() => {
+    if (!playerEpisode) {
+      return player!
+    }
 
-  return useMemo<PlayerAPI>(
-    () => ({
+    return {
       ...player!,
       play() {
         player!.play(playerEpisode)
@@ -238,7 +238,6 @@ export function useAudioPlayer(episode?: PodcastEpisode) {
       get playing() {
         return playerEpisode ? player!.isPlaying(playerEpisode) : player!.playing
       },
-    }),
-    [player, playerEpisode],
-  )
+    }
+  }, [player, playerEpisode])
 }

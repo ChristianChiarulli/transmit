@@ -28,7 +28,7 @@ export default function ShowPage() {
   let canSave = Boolean(pubkey)
 
   function handleToggleSave() {
-    if (!canSave) return
+    if (!canSave || !show) return
     if (saved) {
       removeShow(show.addressTag)
     } else {

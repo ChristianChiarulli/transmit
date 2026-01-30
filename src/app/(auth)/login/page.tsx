@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { nip19, getPublicKey } from 'nostr-tools'
@@ -24,7 +24,7 @@ function isValidNsec(value: string) {
   }
 }
 
-export default function Login() {
+function LoginContent() {
   let router = useRouter()
   let searchParams = useSearchParams()
   let callbackUrl = searchParams.get('callbackUrl') || '/'
@@ -137,5 +137,13 @@ export default function Login() {
         Your nsec is only stored in your browser session and never sent to any server.
       </Text>
     </div>
+  )
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={<div className="mx-auto grid w-full max-w-sm gap-8">Loading…</div>}>
+      <LoginContent />
+    </Suspense>
   )
 }

@@ -69,11 +69,23 @@ export function NostrLogin({ variant = 'sidebar' }: { variant?: 'sidebar' | 'nav
     <UserIcon />
   )
 
+  if (variant === 'navbar') {
+    return (
+      <Dropdown>
+        <DropdownButton as={NavbarItem}>{avatar}</DropdownButton>
+        <DropdownMenu anchor="bottom end">
+          <DropdownItem onClick={handleLogout}>
+            <ArrowRightOnRectangleIcon />
+            <DropdownLabel>Logout</DropdownLabel>
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    )
+  }
+
   return (
     <Dropdown>
-      <DropdownButton as={variant === 'navbar' ? NavbarItem : SidebarItem}>
-        {avatar}
-      </DropdownButton>
+      <DropdownButton as={SidebarItem}>{avatar}</DropdownButton>
       <DropdownMenu anchor="bottom end">
         <DropdownItem onClick={handleLogout}>
           <ArrowRightOnRectangleIcon />
